@@ -34,7 +34,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -60,7 +60,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 0;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -86,7 +86,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -112,7 +112,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -138,7 +138,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -155,10 +155,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -181,7 +181,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -198,10 +198,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -235,7 +235,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -252,10 +252,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -312,7 +312,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -329,10 +329,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -380,7 +380,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -399,10 +399,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -414,7 +414,7 @@ contract('TokiFabric', accounts => {
 		let totalSupply = await fabric.totalSupply();
 		assert.equal(new BigNumber(totalSupply).valueOf(), new BigNumber(1).valueOf(), "totalSupply is not equal");
 
-		await fabric.migrateObligature(obligatureId, {from: accounts[5]})
+		await fabric.migrateToki(obligatureId, {from: accounts[5]})
 			.then(Utils.receiptShouldFailed)
 			.catch(Utils.catchReceiptShouldFailed);
 
@@ -432,7 +432,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -451,10 +451,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -472,7 +472,7 @@ contract('TokiFabric', accounts => {
 		let lockedToMarketPlace = await fabric.getTokiLockStatus(obligatureId);
 		assert.equal(lockedToMarketPlace, true, "marketplace is not equal");
 
-		await fabric.migrateObligature(obligatureId, {from: tokiOwner})
+		await fabric.migrateToki(obligatureId, {from: tokiOwner})
 			.then(Utils.receiptShouldFailed)
 			.catch(Utils.catchReceiptShouldFailed);
 
@@ -490,7 +490,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -509,10 +509,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -527,7 +527,7 @@ contract('TokiFabric', accounts => {
 		let marketplaceIsLocked = await fabric.getTokiLockStatus(obligatureId);
 		assert.equal(marketplaceIsLocked, false, "marketplace is not equal");
 
-		await fabric.migrateObligature(obligatureId, {from: tokiOwner})
+		await fabric.migrateToki(obligatureId, {from: tokiOwner})
 			.then(Utils.receiptShouldSucceed);
 
 		let isObligatureActive = await fabric.getTokiStatus(obligatureId);
@@ -545,7 +545,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -564,10 +564,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -594,7 +594,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -613,10 +613,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -628,7 +628,7 @@ contract('TokiFabric', accounts => {
 		let totalSupply = await fabric.totalSupply();
 		assert.equal(new BigNumber(totalSupply).valueOf(), new BigNumber(1).valueOf(), "totalSupply is not equal");
 
-		await fabric.migrateObligature(obligatureId, {from: tokiOwner})
+		await fabric.migrateToki(obligatureId, {from: tokiOwner})
 			.then(Utils.receiptShouldSucceed);
 
 		await fabric.lockTokiToMarketplace(obligatureId, {from: tokiOwner})
@@ -646,7 +646,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -665,10 +665,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -697,7 +697,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -716,10 +716,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -775,7 +775,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -794,10 +794,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -850,7 +850,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -869,10 +869,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -925,7 +925,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -944,10 +944,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1006,7 +1006,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1025,10 +1025,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1084,7 +1084,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1103,10 +1103,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1162,7 +1162,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1181,10 +1181,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1248,7 +1248,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1267,10 +1267,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1327,7 +1327,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1346,10 +1346,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1406,7 +1406,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1425,10 +1425,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1495,7 +1495,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1514,10 +1514,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);
@@ -1577,7 +1577,7 @@ contract('TokiFabric', accounts => {
 		let payDate = 1546300800;
 		let marketId = new BigNumber('1');
 
-		await fabric.createObligature(
+		await fabric.createToki(
 			tokiId,
 			assetReference,
 
@@ -1596,10 +1596,10 @@ contract('TokiFabric', accounts => {
 		let obligatureIndex = await fabric.tokenByIndex(0);
 		assert.equal(new BigNumber(obligatureIndex).valueOf(), new BigNumber(0).valueOf(), "obligatureIndex is not equal");
 
-		let ownedObligature = await fabric.ownerObligatures(tokiOwner);
+		let ownedObligature = await fabric.ownerToki(tokiOwner);
 		assert.equal(new BigNumber(ownedObligature).valueOf(), new BigNumber(0).valueOf(), "ownedObligatures is not equal");
 
-		let ownedObligatureByIndex = await fabric.ownerObligatureByIndex(tokiOwner, 0);
+		let ownedObligatureByIndex = await fabric.ownerTokiByIndex(tokiOwner, 0);
 		assert.equal(new BigNumber(ownedObligatureByIndex).valueOf(), new BigNumber(0).valueOf(), "ownedObligatureByIndex is not equal");
 
 		let balanceOfOwner = await fabric.balanceOf(tokiOwner);

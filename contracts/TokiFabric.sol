@@ -8,17 +8,17 @@ import './Strings.sol';
 contract TokiFabric is ERC1358, Strings {
     using SafeMath for uint256;
 
-    struct Obligature {
+    struct Toki {
         string tokiId;
         uint256 tokenId;
         address owner;
         address beneficiary;
         uint256 value;
         uint256 payDate;
-        ObligatureMetadata metadata;
+        TokiMetadata metadata;
     }
 
-    struct ObligatureMetadata {
+    struct TokiMetadata {
         string assetReference;
         string ccy;
         bool active;
@@ -27,7 +27,7 @@ contract TokiFabric is ERC1358, Strings {
         bool marketplaceIsLocked;
     }
 
-    Obligature[] private obligatures;
+    Toki[] private tokis;
 
     constructor(
         string _name,
@@ -35,7 +35,7 @@ contract TokiFabric is ERC1358, Strings {
     )   public
         ERC1358(_name, _symbol) {}
 
-    function ownerObligatures(address _owner)  
+    function ownerToki(address _owner)  
         public 
         view 
         returns (uint256[])
@@ -44,7 +44,7 @@ contract TokiFabric is ERC1358, Strings {
         return _ownedTokens[_owner];
     }
 
-    function ownerObligatureByIndex(
+    function ownerTokiByIndex(
         address _owner,
         uint256 _index
     )
@@ -57,7 +57,7 @@ contract TokiFabric is ERC1358, Strings {
         return _ownedTokens[_owner][_index];
     }
 
-    function createObligature(
+    function createToki(
         string _tokiId,
         string _assetReference,
         address _owner,
@@ -81,15 +81,15 @@ contract TokiFabric is ERC1358, Strings {
 
         tokenId = _allTokens.length;
 
-        obligatures.push(
-            Obligature({
+        tokis.push(
+            Toki({
                 tokiId: _tokiId,
                 tokenId: tokenId,
                 owner: _owner,
                 beneficiary: _beneficiary,
                 value: _value,
                 payDate: _payDate,
-                metadata: ObligatureMetadata({
+                metadata: TokiMetadata({
                     assetReference: _assetReference,
                     ccy: _ccy,
                     active: true,
@@ -111,7 +111,7 @@ contract TokiFabric is ERC1358, Strings {
         );
     } 
 
-    function migrateObligature(uint256 _obligatureId) 
+    function migrateToki(uint256 tokiId) 
         external
         returns (
             string _tokiId,
@@ -123,142 +123,142 @@ contract TokiFabric is ERC1358, Strings {
             string _ccy
         )
     {
-        require(_obligatureId < _allTokens.length);
-        Obligature storage obligature = obligatures[_obligatureId];
+        require(tokiId < _allTokens.length);
+        Toki storage toki = tokis[tokiId];
 
         require(
-            msg.sender == obligature.owner &&
-            getTokiOwners(_obligatureId).length == 1 &&
-            getTokiOwners(_obligatureId)[0] == obligature.owner &&
-            obligature.metadata.active == true &&
-            obligature.metadata.paid == false &&
-            obligature.metadata.marketplaceIsLocked == false &&
-            obligature.payDate > block.timestamp
+            msg.sender == toki.owner &&
+            getTokiOwners(tokiId).length == 1 &&
+            getTokiOwners(tokiId)[0] == toki.owner &&
+            toki.metadata.active == true &&
+            toki.metadata.paid == false &&
+            toki.metadata.marketplaceIsLocked == false &&
+            toki.payDate > block.timestamp
         );
 
-        obligature.metadata.active = false;
+        toki.metadata.active = false;
 
         return (
-            obligature.tokiId,
-            obligature.owner,
-            obligature.beneficiary,
-            obligature.value,
-            obligature.payDate,
-            obligature.metadata.assetReference,
-            obligature.metadata.ccy
+            toki.tokiId,
+            toki.owner,
+            toki.beneficiary,
+            toki.value,
+            toki.payDate,
+            toki.metadata.assetReference,
+            toki.metadata.ccy
         );
     } 
 
-    function lockTokiToMarketplace(uint256 _obligatureId) 
+    function lockTokiToMarketplace(uint256 _tokiId) 
         public 
         returns (bool)
     {
-        require(_obligatureId < _allTokens.length);
-        Obligature storage obligature = obligatures[_obligatureId];
+        require(_tokiId < _allTokens.length);
+        Toki storage toki = tokis[_tokiId];
 
         require(
-            msg.sender == obligature.owner &&
-            obligature.metadata.active == true &&
-            obligature.metadata.paid == false &&
-            obligature.metadata.marketplaceIsLocked == false
+            msg.sender == toki.owner &&
+            toki.metadata.active == true &&
+            toki.metadata.paid == false &&
+            toki.metadata.marketplaceIsLocked == false
         );
 
-        obligature.metadata.marketplaceIsLocked = true;
+        toki.metadata.marketplaceIsLocked = true;
         return true;
     }
 
-    function getTokiLockStatus(uint256 _obligatureId) 
+    function getTokiLockStatus(uint256 _tokiId) 
         public 
         view 
         returns (bool)
     {
-        require(_obligatureId < _allTokens.length);
-        return obligatures[_obligatureId].metadata.marketplaceIsLocked;
+        require(_tokiId < _allTokens.length);
+        return tokis[_tokiId].metadata.marketplaceIsLocked;
     }
 
-    function getTokiStatus(uint256 _obligatureId)
+    function getTokiStatus(uint256 _tokiId)
         public
         view
         returns (bool)
     {
-        require(_obligatureId < _allTokens.length);
-        return obligatures[_obligatureId].metadata.active;
+        require(_tokiId < _allTokens.length);
+        return tokis[_tokiId].metadata.active;
     }
 
-    function getTokiBeneficiary(uint256 _obligatureId)
+    function getTokiBeneficiary(uint256 _tokiId)
         public
         view
         returns (address)
     {
-        require(_obligatureId < _allTokens.length);
-        return obligatures[_obligatureId].beneficiary;
+        require(_tokiId < _allTokens.length);
+        return tokis[_tokiId].beneficiary;
     }
 
-    function getTokiOwner(uint256 _obligatureId)
+    function getTokiOwner(uint256 _tokiId)
         public
         view
         returns (address)
     {
-        require(_obligatureId < _allTokens.length);
-        return obligatures[_obligatureId].owner;
+        require(_tokiId < _allTokens.length);
+        return tokis[_tokiId].owner;
     }
 
-    function getTokiPayStatus(uint256 _obligatureId)
+    function getTokiPayStatus(uint256 _tokiId)
         public
         view
         returns (bool)
     {
-        require(_obligatureId < _allTokens.length);
-        return obligatures[_obligatureId].metadata.paid;
+        require(_tokiId < _allTokens.length);
+        return tokis[_tokiId].metadata.paid;
     }
 
-    function getTokiPayDate(uint256 _obligatureId)
+    function getTokiPayDate(uint256 _tokiId)
         public
         view 
         returns (uint256)
     {
-        require(_obligatureId < _allTokens.length);
-        return obligatures[_obligatureId].payDate;
+        require(_tokiId < _allTokens.length);
+        return tokis[_tokiId].payDate;
     }
 
-    function getTokiOwners(uint256 _obligatureId)
+    function getTokiOwners(uint256 _tokiId)
         public
         view
         returns (address[])
     {
-        require(_obligatureId < _allTokens.length);
-        return super.getFungibleTokenHolders(_obligatureId);
+        require(_tokiId < _allTokens.length);
+        return super.getFungibleTokenHolders(_tokiId);
     }
 
-    function getTokiPortions(uint256 _obligatureId)
+    function getTokiPortions(uint256 _tokiId)
         public
         view
         returns(address[], uint256[])
     {
-        require(_obligatureId < _allTokens.length);
-        return super.getFungibleTokenHolderBalances(_obligatureId);
+        require(_tokiId < _allTokens.length);
+        return super.getFungibleTokenHolderBalances(_tokiId);
     }
 
-    function getTokiDependentFungibleToken(uint256 _obligatureId)
+    function getTokiDependentFungibleToken(uint256 _tokiId)
         public
         view 
         returns (address)
     {
-        require(_obligatureId < _allTokens.length);
-        return ftAddresses[_obligatureId];
+        require(_tokiId < _allTokens.length);
+        return ftAddresses[_tokiId];
     }
 
-    function setTokiAsPaid(uint256 _obligatureId)
+    function setTokiAsPaid(uint256 _tokiId)
         public
         onlyOwner
     {
         require(
-            _obligatureId < _allTokens.length &&
-            obligatures[_obligatureId].metadata.paid == false &&
-            obligatures[_obligatureId].metadata.marketplaceIsLocked == true &&
-            obligatures[_obligatureId].metadata.active == true    
+            _tokiId < _allTokens.length &&
+            tokis[_tokiId].metadata.paid == false &&
+            tokis[_tokiId].metadata.marketplaceIsLocked == true &&
+            tokis[_tokiId].metadata.active == true    
         );
-        obligatures[_obligatureId].metadata.paid = true;
-        obligatures[_obligatureId].metadata.active = false;
+        tokis[_tokiId].metadata.paid = true;
+        tokis[_tokiId].metadata.active = false;
     }
 }
