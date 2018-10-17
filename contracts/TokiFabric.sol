@@ -1,16 +1,19 @@
 pragma solidity ^0.4.24;
 
-import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
-import './token/erc1358/ERC1358.sol';
-import './token/erc1358/ERC1358FTFull.sol';
-import './Strings.sol';
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "./token/erc1358/ERC1358.sol";
+import "./token/erc1358/ERC1358FTFull.sol";
+import "./TokiFT.sol";
+import "./Strings.sol";
+import "./Constants.sol";
+import "./Permissions.sol";
 
-contract TokiFabric is ERC1358, Strings {
+contract TokiFabric is ERC1358, Strings, Constants, Permissions {
     using SafeMath for uint256;
 
+    // Struct that implements TOKI (obligatoire) entity for Tallyx system
     struct Toki {
         string tokiId;
-        uint256 tokenId;
         address owner;
         address beneficiary;
         uint256 value;
@@ -18,247 +21,316 @@ contract TokiFabric is ERC1358, Strings {
         TokiMetadata metadata;
     }
 
+    // Struct that implements TOKI (obligatoire) metadata entity for Tallyx system
     struct TokiMetadata {
         string assetReference;
         string ccy;
-        bool active;
+        uint256 status;
+        uint256 payStatus;
         uint256 marketId;
-        bool paid;
+        bool active;
         bool marketplaceIsLocked;
     }
 
-    Toki[] private tokis;
+    // Mapping from NFT id to Toki data
+    mapping (uint256 => Toki) private tokis;
 
+    /** 
+     * Constructor of TokiFabric smart contract for Tallyx system
+     * @param _name - Name for set of TOKI's
+     * @param _symbol - Symbol for set TOKI's
+     */
     constructor(
         string _name,
         string _symbol
     )   public
-        ERC1358(_name, _symbol) {}
-
-    function ownerToki(address _owner)  
-        public 
-        view 
-        returns (uint256[])
+        ERC1358(_name, _symbol) 
+        Permissions()
     {
-        require(_owner != address(0));
-        return _ownedTokens[_owner];
+        permissions[msg.sender] = PERMISSION_SET_PERMISSION | PERMISSION_TO_CREATE | 
+            PERMISSION_TO_MODIFY_STATUS | PERMISSION_TO_MODIFY_PAY_STATUS | 
+            PERMISSION_TO_DEACTIVATE;
     }
 
-    function ownerTokiByIndex(
-        address _owner,
-        uint256 _index
+    /**
+     * @dev Disallowed transferFrom function
+     */
+    function transferFrom(
+        address,
+        address,
+        uint256
+    ) public {
+        require(false, ERROR_DISALLOWED);
+    }
+
+    /**
+     * @dev Disallowed approve function
+     */
+    function approve(
+        address, 
+        uint256
+    ) public {
+        require(false, ERROR_DISALLOWED);
+    }
+
+    /**
+     * @dev Disallowed setApprovalForAll function
+     */
+    function setApprovalForAll(
+        address, 
+        bool
+    ) public {
+        require(false, ERROR_DISALLOWED);
+    }
+
+    /**
+     * @dev Disallowed mint function
+     */ 
+    function mint(
+        string,
+        string,
+        uint256,
+        address,
+        uint256
     )
-        public 
-        view
+        public
         returns (uint256)
     {
-        require(_owner != address(0));
-        require(_index < _ownedTokens[_owner].length);
-        return _ownedTokens[_owner][_index];
+        require(false, ERROR_DISALLOWED);
+    } 
+
+    /**
+     * @dev Disallowed burn function
+     */ 
+    function burn(
+        address,
+        uint256
+    )
+        public
+        returns (bool)
+    {
+        require(false, ERROR_DISALLOWED);
     }
 
+    /**
+     * Overrided createFT with TokiFT creation instead ERC1358FT
+     */
+    function _createFT(
+        string _name,
+        string _symbol,
+        uint256 _decimals,
+        address _tokenOwner,
+        uint256 _fungibleTokenSupply,
+        uint256 _tokenId
+    )
+        internal 
+        returns (address)
+    {
+        require (
+            _decimals > 0 && 
+            _tokenOwner != address(0) &&
+            _fungibleTokenSupply > 0
+        );
+
+        TokiFT fungibleToken = new TokiFT(
+            _name,
+            _symbol,
+            _decimals,
+            _fungibleTokenSupply,
+            address(this),
+            _tokenId,
+            _tokenOwner
+        );
+        return address(fungibleToken);
+    }
+
+    /**
+     * @dev Creates obligatoire (TOKI) with its metadata, it is active by default
+     * TOKI - NFT extended with metadata (_tokiId, _assetReference, _owner, _beneficiary,
+     *  _ccy, _status, _payStatus, _value, _payDate, _marketId)
+     * @notice This function creates NFT extended with metadata for TOKI and FT, that is 
+     * supply for this NFT, so there is a binding between NFT and FT, thus for 1 NFT we 
+     * have 1 FT. The TOKI split appears in the next way: you get address of FT which is 
+     * related to NFT and call transfer function from it. Basically all FT supply belongs to 
+     * TOKI beneficiary, if he realize to share his profit from TOKI he could transfer some FT's 
+     * to him and he will became pay beneficiary too, so your stake in FT's define your portion 
+     * for TOKI. 
+     */
     function createToki(
         string _tokiId,
         string _assetReference,
         address _owner,
         address _beneficiary,
         string _ccy,
-        uint256 _value,
+        uint256 _fungibleTokenSupply,
         uint256 _payDate,
         uint256 _marketId
     ) 
         external 
-        onlyOwner 
-        returns (uint256 tokenId) 
+        hasPermission(msg.sender, PERMISSION_TO_CREATE)
+        returns (uint256) 
     {
         require( 
             _owner != address(0) && 
             _beneficiary != address(0) &&
-            _value > 0 &&
+            _fungibleTokenSupply > 0 &&
             _payDate > 0 &&
             _owner != _beneficiary
         );
 
-        tokenId = _allTokens.length;
-
-        tokis.push(
-            Toki({
-                tokiId: _tokiId,
-                tokenId: tokenId,
-                owner: _owner,
-                beneficiary: _beneficiary,
-                value: _value,
-                payDate: _payDate,
-                metadata: TokiMetadata({
-                    assetReference: _assetReference,
-                    ccy: _ccy,
-                    active: true,
-                    marketId: _marketId,
-                    paid: false,
-                    marketplaceIsLocked: false
-                })
-            })
-        );
-        
-        string memory symbol = concat("TOKI", toString(tokenId));
-
-        super.createFungible(
-            _tokiId,
-            symbol,
+        uint256 tokenId = _allTokens.length;
+        address fungibleToken = _createFT(
+            concat("TOKI", toString(tokenId)),
+            "TOKI",
             18,
-            _owner,
-            _value
+            _beneficiary,
+            _fungibleTokenSupply,
+            tokenId
         );
-    } 
 
-    function migrateToki(uint256 tokiId) 
-        external
+        require(super._mint(_owner, tokenId) == true, ERROR_MINTING_NFT);
+        ftAddresses[tokenId] = fungibleToken;
+        nftValues[tokenId] = _fungibleTokenSupply;
+
+        tokis[tokenId].tokiId = _tokiId;
+        tokis[tokenId].owner = _owner;
+        tokis[tokenId].beneficiary = _beneficiary;
+        tokis[tokenId].value = _fungibleTokenSupply;
+        tokis[tokenId].payDate = _payDate;
+        tokis[tokenId].metadata.assetReference = _assetReference;
+        tokis[tokenId].metadata.ccy = _ccy;
+        tokis[tokenId].metadata.status = 1;
+        tokis[tokenId].metadata.payStatus = 1;
+        tokis[tokenId].metadata.marketId = _marketId;
+        tokis[tokenId].metadata.active = true;
+        tokis[tokenId].metadata.marketplaceIsLocked = false;
+
+        return tokenId;
+    }    
+
+    /** 
+     * @dev Returns obligatoire (TOKI) internal data, including (tokiId, owner,
+     * beneficiary, value, payDate, assetReference, ccy, active, marketId, paid)
+     * @param _tokiId - Unique identifier of TOKI
+     */
+    function tokiById(uint256 _tokiId)
+        public
+        view
         returns (
-            string _tokiId,
-            address _owner,
-            address _beneficiary,
-            uint256 _value,
-            uint256 _payDate,
-            string _assetReference,
-            string _ccy
+            uint256[5], 
+            address[2],
+            string,
+            string,
+            string, 
+            bool, 
+            bool
         )
-    {
-        require(tokiId < _allTokens.length);
-        Toki storage toki = tokis[tokiId];
-
-        require(
-            msg.sender == toki.owner &&
-            getTokiOwners(tokiId).length == 1 &&
-            getTokiOwners(tokiId)[0] == toki.owner &&
-            toki.metadata.active == true &&
-            toki.metadata.paid == false &&
-            toki.metadata.marketplaceIsLocked == false &&
-            toki.payDate > block.timestamp
-        );
-
-        toki.metadata.active = false;
-
-        return (
-            toki.tokiId,
-            toki.owner,
-            toki.beneficiary,
-            toki.value,
-            toki.payDate,
-            toki.metadata.assetReference,
-            toki.metadata.ccy
-        );
-    } 
-
-    function lockTokiToMarketplace(uint256 _tokiId) 
-        public 
-        returns (bool)
     {
         require(_tokiId < _allTokens.length);
         Toki storage toki = tokis[_tokiId];
+        uint256[5] memory tokiNumericData;
+        address[2] memory tokiAddresses;
 
-        require(
-            msg.sender == toki.owner &&
-            toki.metadata.active == true &&
-            toki.metadata.paid == false &&
-            toki.metadata.marketplaceIsLocked == false
+        tokiNumericData[0] = toki.value; // TOKI value
+        tokiNumericData[1] = toki.payDate; // TOKI payDate
+        tokiNumericData[2] = toki.metadata.status; // TOKI status
+        tokiNumericData[3] = toki.metadata.payStatus; // TOKI payStatus
+        tokiNumericData[4] = toki.metadata.marketId; // TOKI marketId
+        tokiAddresses[0] = toki.owner; // TOKI owner
+        tokiAddresses[1] = toki.beneficiary; // TOKI beneficiary
+
+        return(
+            tokiNumericData,
+            tokiAddresses,
+            toki.tokiId,
+            toki.metadata.assetReference,
+            toki.metadata.ccy,
+            toki.metadata.active,
+            toki.metadata.marketplaceIsLocked
         );
+    }
 
-        toki.metadata.marketplaceIsLocked = true;
+    /**
+     * @dev Updates obligatoire (TOKI) pay status
+     * @param _tokiId - Unique identifier of TOKI NFT
+     */
+    function updateTokiStatus(
+        uint256 _tokiId,
+        uint256 _newStatus
+    )
+        public
+        hasPermission(msg.sender, PERMISSION_TO_MODIFY_STATUS)
+        returns (bool)
+    {
+        require(
+            _newStatus > 0 &&
+            _tokiId < _allTokens.length
+        );
+        tokis[_tokiId].metadata.status = _newStatus;
         return true;
     }
 
-    function getTokiLockStatus(uint256 _tokiId) 
+    /**
+     * @dev Updates obligatoire (TOKI) pay status
+     * @param _tokiId - Unique identifier of TOKI NFT
+     */
+    function updateTokiPayStatus(
+        uint256 _tokiId,
+        uint256 _newPayStatus
+    )
+        public
+        hasPermission(msg.sender, PERMISSION_TO_MODIFY_PAY_STATUS)
+        returns (bool)
+    {
+        require(
+            _newPayStatus > 0 &&
+            _tokiId < _allTokens.length
+        );
+        tokis[_tokiId].metadata.payStatus = _newPayStatus;
+        return true;
+    }
+
+    /**
+     * @dev Deactivate obligatoire (TOKI) for current marketplace
+     * @param _tokiId - Unique identifier of TOKI NFT
+     */
+    function deactivateToki(uint256 _tokiId)
+        public
+        hasPermission(msg.sender, PERMISSION_TO_DEACTIVATE)
+        returns (bool)
+    {
+        require(_tokiId < _allTokens.length);
+        tokis[_tokiId].metadata.active = false;
+        return true;
+    }
+
+    /**
+     * @dev Marks obligatoire (TOKI) as locked for current marketplace
+     * @param _tokiId - Unique identifier of TOKI NFT
+     */
+    function lockTokiToMarketplace(uint256 _tokiId) 
         public 
-        view 
+        hasPermission(msg.sender, PERMISSION_TO_CREATE)
         returns (bool)
-    {
-        require(_tokiId < _allTokens.length);
-        return tokis[_tokiId].metadata.marketplaceIsLocked;
-    }
-
-    function getTokiStatus(uint256 _tokiId)
-        public
-        view
-        returns (bool)
-    {
-        require(_tokiId < _allTokens.length);
-        return tokis[_tokiId].metadata.active;
-    }
-
-    function getTokiBeneficiary(uint256 _tokiId)
-        public
-        view
-        returns (address)
-    {
-        require(_tokiId < _allTokens.length);
-        return tokis[_tokiId].beneficiary;
-    }
-
-    function getTokiOwner(uint256 _tokiId)
-        public
-        view
-        returns (address)
-    {
-        require(_tokiId < _allTokens.length);
-        return tokis[_tokiId].owner;
-    }
-
-    function getTokiPayStatus(uint256 _tokiId)
-        public
-        view
-        returns (bool)
-    {
-        require(_tokiId < _allTokens.length);
-        return tokis[_tokiId].metadata.paid;
-    }
-
-    function getTokiPayDate(uint256 _tokiId)
-        public
-        view 
-        returns (uint256)
-    {
-        require(_tokiId < _allTokens.length);
-        return tokis[_tokiId].payDate;
-    }
-
-    function getTokiOwners(uint256 _tokiId)
-        public
-        view
-        returns (address[])
-    {
-        require(_tokiId < _allTokens.length);
-        return super.getFungibleTokenHolders(_tokiId);
-    }
-
-    function getTokiPortions(uint256 _tokiId)
-        public
-        view
-        returns(address[], uint256[])
-    {
-        require(_tokiId < _allTokens.length);
-        return super.getFungibleTokenHolderBalances(_tokiId);
-    }
-
-    function getTokiDependentFungibleToken(uint256 _tokiId)
-        public
-        view 
-        returns (address)
-    {
-        require(_tokiId < _allTokens.length);
-        return ftAddresses[_tokiId];
-    }
-
-    function setTokiAsPaid(uint256 _tokiId)
-        public
-        onlyOwner
     {
         require(
             _tokiId < _allTokens.length &&
-            tokis[_tokiId].metadata.paid == false &&
-            tokis[_tokiId].metadata.marketplaceIsLocked == true &&
-            tokis[_tokiId].metadata.active == true    
+            tokis[_tokiId].metadata.marketplaceIsLocked == false
         );
-        tokis[_tokiId].metadata.paid = true;
-        tokis[_tokiId].metadata.active = false;
+        tokis[_tokiId].metadata.marketplaceIsLocked = true;
+        return true;
+    }
+
+    /**
+     * @dev Returns TOKI lock status
+     * @param _tokiId - Unique identifier of TOKI NFT
+     */
+    function tokiLockStatus(uint256 _tokiId)
+        public
+        view
+        returns (bool)
+    {
+        require (_tokiId < _allTokens.length);
+        return tokis[_tokiId].metadata.marketplaceIsLocked;
     }
 }
