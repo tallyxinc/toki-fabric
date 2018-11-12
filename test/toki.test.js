@@ -1,6 +1,6 @@
 const TokiFabric = artifacts.require('./TokiFabric.sol');
 const TokiFT = artifacts.require('TokiFT.sol');
-const FungibleToken = artifacts.require('token/ERC1358FTFull.sol');
+const FungibleToken = artifacts.require('token/RFTFTFull.sol');
 const abi = require('ethereumjs-abi');
 const BigNumber = require('bignumber.js');
 const Utils = require('./utils');

@@ -1,14 +1,14 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "./token/erc1358/ERC1358.sol";
-import "./token/erc1358/ERC1358FTFull.sol";
+import "./token/rft/RFT.sol";
+import "./token/rft/RFTFTFull.sol";
 import "./TokiFT.sol";
 import "./Strings.sol";
 import "./Constants.sol";
 import "./Permissions.sol";
 
-contract TokiFabric is ERC1358, Strings, Constants, Permissions {
+contract TokiFabric is RFT, Strings, Constants, Permissions {
     using SafeMath for uint256;
 
     // Struct that implements TOKI (obligatoire) entity for Tallyx system
@@ -44,7 +44,7 @@ contract TokiFabric is ERC1358, Strings, Constants, Permissions {
         string _name,
         string _symbol
     )   public
-        ERC1358(_name, _symbol) 
+        RFT(_name, _symbol) 
         Permissions()
     {
         permissions[msg.sender] = PERMISSION_SET_PERMISSION | PERMISSION_TO_CREATE | 
@@ -113,7 +113,7 @@ contract TokiFabric is ERC1358, Strings, Constants, Permissions {
     }
 
     /**
-     * Overrided createFT with TokiFT creation instead ERC1358FT
+     * Overrided createFT with TokiFT creation instead RFTFT
      */
     function _createFT(
         string _name,

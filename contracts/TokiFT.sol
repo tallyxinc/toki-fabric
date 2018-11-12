@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 
-import "./token/erc1358/ERC1358FTFull.sol";
+import "./token/rft/RFTFTFull.sol";
 import "./TokiFabric.sol";
 import "./Constants.sol";
 
-contract TokiFT is ERC1358FTFull, Constants {
+contract TokiFT is RFTFTFull, Constants {
 	
 	/**
 	 * @dev Checks that Obligature is locked to marketplace
@@ -37,7 +37,7 @@ contract TokiFT is ERC1358FTFull, Constants {
         address _owner
 	) 
 		public
-		ERC1358FTFull(
+		RFTFTFull(
 			_name,
 			_symbol,
 			_decimals,
