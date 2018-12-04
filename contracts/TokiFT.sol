@@ -62,6 +62,7 @@ contract TokiFT is RFTFTFull, Constants {
 		returns (bool)
 	{
 		super.transfer(_to, _amount);
+		return true;
 	}
 
 	/** 
@@ -77,5 +78,6 @@ contract TokiFT is RFTFTFull, Constants {
 		returns (bool)
 	{
 		super.transferFrom(_from, _to, _amount);
+		return true;
 	}
 }
