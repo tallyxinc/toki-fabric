@@ -35,6 +35,55 @@ contract TokiFabric is RFT, Strings, Constants, Permissions {
     // Mapping from NFT id to Toki data
     mapping (uint256 => Toki) private tokis;
 
+    /**
+     * @dev Emits when Toki is created
+     */
+    event TokiCreated(
+        string _tokiId,
+        uint256 _tokenId,
+        address _owner,
+        address _beneficiary,
+        uint256 _value,
+        uint256 _payDate,
+        string _assetReference,
+        string _ccy,
+        address _ftAddress
+    );
+
+
+    /**
+     * @dev Emits when a Toki is locked to market place
+     */
+    event TokiLockedToMarketplace(
+        uint256 _tokenId
+    );
+
+
+    /**
+     * @dev Emits when a Toki status is updated
+     */
+    event TokiStatusUpdated(
+        uint256 _tokenId,
+        uint256 _status
+    );
+
+
+    /**
+     * @dev Emits when a Toki payStatus is updated
+     */
+    event TokiPayStatusUpdated(
+        uint256 _tokenId,
+        uint256 _payStatus
+    );
+
+    /**
+     * @dev Emits when a Toki is deactivated
+     */
+    event TokiDeactivated(
+        uint256 _tokenId
+    );
+
+
     /** 
      * Constructor of TokiFabric smart contract for Tallyx system
      * @param _name - Name for set of TOKI's
@@ -205,6 +254,19 @@ contract TokiFabric is RFT, Strings, Constants, Permissions {
         tokis[tokenId].metadata.active = true;
         tokis[tokenId].metadata.marketplaceIsLocked = false;
 
+        emit TokiCreated(
+            tokis[tokenId].tokiId,
+            tokenId,
+            tokis[tokenId].owner,
+            tokis[tokenId].beneficiary,
+            tokis[tokenId].value,
+            tokis[tokenId].payDate,
+            tokis[tokenId].metadata.assetReference,
+            tokis[tokenId].metadata.ccy,
+            fungibleToken
+        );
+
+
         return tokenId;
     }    
 
@@ -267,6 +329,12 @@ contract TokiFabric is RFT, Strings, Constants, Permissions {
             _tokiId < _allTokens.length
         );
         tokis[_tokiId].metadata.status = _newStatus;
+
+        emit TokiStatusUpdated(
+            _tokiId,
+            _newStatus
+        );
+
         return true;
     }
 
@@ -287,6 +355,12 @@ contract TokiFabric is RFT, Strings, Constants, Permissions {
             _tokiId < _allTokens.length
         );
         tokis[_tokiId].metadata.payStatus = _newPayStatus;
+
+        emit TokiPayStatusUpdated(
+            _tokiId,
+            _newPayStatus
+        );
+
         return true;
     }
 
@@ -301,6 +375,11 @@ contract TokiFabric is RFT, Strings, Constants, Permissions {
     {
         require(_tokiId < _allTokens.length);
         tokis[_tokiId].metadata.active = false;
+
+        emit TokiDeactivated(
+            _tokiId
+        );
+
         return true;
     }
 
@@ -318,6 +397,11 @@ contract TokiFabric is RFT, Strings, Constants, Permissions {
             tokis[_tokiId].metadata.marketplaceIsLocked == false
         );
         tokis[_tokiId].metadata.marketplaceIsLocked = true;
+
+        emit TokiLockedToMarketplace(
+            _tokiId
+        );
+        
         return true;
     }
 
